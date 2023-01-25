@@ -1,5 +1,21 @@
-actor {
-  public query func greet(name : Text) : async Text {
-    return "Hello, " # name # "!";
+import Debug "mo:base/Debug";
+import Principal "mo:base/Principal";
+import ElectionActorClass "../election/election";
+import Cycles "mo:base/ExperimentalCycles";
+
+actor Democracy {
+  
+  public shared (msg) func newElection(name: Text) : async Principal {
+    let caller = msg.caller;
+
+    Debug.print(debug_show(Cycles.balance()));
+    Cycles.add(100_500_000_000);
+    let newElection = await ElectionActorClass.Election(name);
+    Debug.print(debug_show(Cycles.balance()));
+
+    let newElectionPrincipal = await newElection.getPrincipal();
+
+    return newElectionPrincipal;
   };
+
 };
