@@ -4,6 +4,10 @@
       "main": "src/democracy_backend/main.mo",
       "type": "motoko"
     },
+    "election": {
+      "main": "src/election/election.mo",
+      "type": "motoko"
+    },
     "democracy_frontend": {
       "dependencies": [
         "democracy_backend"
