@@ -13,4 +13,4 @@ actor class Election (_name: Text) = this {
     public query func getPrincipal () : async Principal {
         return Principal.fromActor(this);
     };
-}
+};
