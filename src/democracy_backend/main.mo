@@ -18,7 +18,8 @@ actor Democracy {
 
     Debug.print(debug_show(Cycles.balance()));
     Cycles.add(200_500_000_000);
-    let newElection = await ElectionActorClass.Election(name);
+    //TODO remove hardcoded second parameter
+    let newElection = await ElectionActorClass.Election(name, ["uno", "due"]);
     Debug.print(debug_show(Cycles.balance()));
 
     let newElectionPrincipal = await newElection.getPrincipal();

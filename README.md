@@ -3,6 +3,9 @@
 To deploy passing argument for Election use
 ```bash
 dfx deploy --argument='("Test Election")'
+
+dfx deploy --argument='("Test Election", vec {"Yess"; "Noo"})'
+
 ```
 
 To create a new election via command line
