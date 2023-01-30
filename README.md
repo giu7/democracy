@@ -3,9 +3,7 @@
 To deploy passing argument for Election use
 ```bash
 dfx deploy --argument='("Test Election")'
-
 dfx deploy --argument='("Test Election", vec {"Yess"; "Noo"})'
-
 ```
 
 To create a new election via command line
@@ -13,6 +11,10 @@ To create a new election via command line
 dfx canister call democracy_backend createNewElection '("prova")'
 ```
 
+To vote for the test election via command line
+```bash
+dfx canister call election vote
+```
 
 Welcome to your new democracy project and to the internet computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
 
