@@ -41,5 +41,5 @@ actor class Election (_name: Text, _options: [Text]) = this {
 
     public query func getVoters() : async List.List<Principal> {
         return voters;
-    }
+    };
 };
