@@ -3,6 +3,7 @@ import Principal "mo:base/Principal";
 import List "mo:base/List";
 import HashMap  "mo:base/HashMap";
 import Text "mo:base/Text";
+import Types "./Types";
 
 actor class Election (_name: Text, _options: [Text]) = this {
     Debug.print("Election Works!");
@@ -41,13 +42,13 @@ actor class Election (_name: Text, _options: [Text]) = this {
         return noCount;
     };
     
-    public shared (msg) func vote(option: Text) {
+    public shared (msg) func vote(option: Text): async Types.VoteResult {
         let caller = msg.caller;
         Debug.print(debug_show(option));
 
         if (option != "Yes" and option != "No") {
             Debug.print("Invalid Option");
-            return;
+            return #Err(#InvalidOption);
         };
 
         let found = List.find(voters, func(listItem: Principal) : Bool { listItem == caller });
@@ -58,7 +59,7 @@ actor class Election (_name: Text, _options: [Text]) = this {
             };
             case (?found) {
                 Debug.print("You Already Voted!");
-                return;
+                return #Err(#AlreadyVoted);
             };
         };
 
@@ -70,6 +71,7 @@ actor class Election (_name: Text, _options: [Text]) = this {
         Debug.print(debug_show(votesCount));
 
         votes.put(option, votesCount + 1);
+        return #Ok("Vote Registered");
     };
 
     public query func getVoters() : async List.List<Principal> {
