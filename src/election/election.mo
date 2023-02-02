@@ -22,22 +22,33 @@ actor class Election (_name: Text, _options: [Text]) = this {
         return options;
     };
 
-    public query func getFirstOption() : async Text {
-        return options[0];
-    };
-
-    public query func getSecondOption() : async Text {
-        return options[1];
-    };
-
-    public query func getOptionsSize() : async Nat {
-        return options.size();
-    };
-
     public shared (msg) func vote() {
         let caller = msg.caller;
-        voters := List.push(caller, voters);
+
+        let found = List.find(voters, func(listItem: Principal) : Bool { listItem == caller });
+        switch (found) {
+            case (null) {
+                Debug.print("First Time! You Can Vote!");
+                voters := List.push(caller, voters);
+            };
+            case (?found) {
+                Debug.print("You Already Voted!");
+            };
+        };
     };
+
+
+/*     public query func ownerOfDip721(token_id: Types.TokenId) : async Types.OwnerResult {
+        let item = List.find(nfts, func(token: Types.Nft) : Bool { token.id == token_id });
+        switch (item) {
+        case (null) {
+            return #Err(#InvalidTokenId);
+        };
+        case (?token) {
+            return #Ok(token.owner);
+        };
+        };
+    }; */
 
     public query func getVoters() : async List.List<Principal> {
         return voters;
