@@ -1,39 +1,50 @@
 import * as React from "react";
 import { render } from "react-dom";
 import { democracy_backend } from "../../declarations/democracy_backend";
+import {useEffect} from "react";
 
 const Democracy = () => {
   const [name, setName] = React.useState('');
   const [message, setMessage] = React.useState('');
+  const [elections, setElections] = React.useState([]);
 
   async function getAllElections() {
-    const elections = await democracy_backend.getAllElections();
+    const electionsArray = await democracy_backend.getAllElections();
+    setElections(electionsArray);
     console.log('all elections: ');
-    console.log(elections);
+    console.log(electionsArray);
   }
+
+  useEffect(() => {
+    console.log("useEffect is triggered")
+    getAllElections();
+  },[]);
 
   return (
     <div style={{ "fontSize": "30px" }}>
-      <div style={{ "backgroundColor": "yellow" }}>
-        <p>React Example Page!</p>
-        <p>
-          {" "}
-          Click{" "}
-          <b> Get All Elections!</b> to have the list of elections. I don't know how to extract Principals from that list
-        </p>
-      </div>
-      <div style={{ margin: "30px" }}>
-        <input
-          id="name"
-          value={name}
-          onChange={(ev) => setName(ev.target.value)}
-        ></input>
-        <button onClick={getAllElections}>Get All Elections!</button>
-      </div>
-      <div>
-        Elections are: (NOT WORKING) "
-        <span style={{ color: "blue" }}>{message}</span>"
-      </div>
+        <div className="h1" style={{ textAlign: "center" }}>D-emocracy</div>
+        <br/>
+
+        <fieldset>
+          <legend>Election list</legend>
+          {elections.map((electionItem) => {
+            console.log(electionItem);
+            <li>electionItem.toText()</li>
+            })
+          }
+        </fieldset>
+        <br/>
+
+        <div style={{ margin: "30px", textAlign: "center" }}>
+          <input
+            id="electionName"
+            value={name}
+            placeholder="election name"
+            style={{ margin: "30px", }}
+          ></input>
+          <button>Create new election</button>
+        </div>
+
     </div>
   );
 };
