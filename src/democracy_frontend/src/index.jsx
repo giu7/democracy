@@ -5,7 +5,7 @@ import {useEffect} from "react";
 import Board from "./Board";
 
 const Democracy = () => {
-  const [name, setName] = React.useState('');
+  const [electionName, setElectionName] = React.useState();
   const [elections, setElections] = React.useState();
 
   async function getAllElections() {
@@ -17,6 +17,15 @@ const Democracy = () => {
     );
   }
 
+  function createElection(e){
+    e.preventDefault()
+    democracy_backend.createNewElection(electionName);
+  }
+
+  function handleChange(e){
+    const { value } = e.target;
+    setElectionName(value);
+  }
 
   useEffect(() => {
     console.log("[index] useEffect is triggered")
@@ -31,15 +40,18 @@ const Democracy = () => {
         {elections}
         <br/>
 
-        <div style={{ margin: "30px", textAlign: "center" }}>
-          <input
-            id="electionName"
-            value={name}
-            placeholder="election name"
-            style={{ margin: "30px", }}
-          ></input>
-          <button>Create new election</button>
-        </div>
+        <form onSubmit={createElection}>
+          <div style={{ margin: "30px", textAlign: "center" }}>
+            <input
+              id="electionName"
+              name="electionName"
+              onChange={handleChange}
+              placeholder="election name"
+              style={{ margin: "30px", }}
+            ></input>
+            <button type="submit">Create new election</button>
+          </div>
+        </form>
 
     </div>
   );
