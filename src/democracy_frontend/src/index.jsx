@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import { democracy_backend } from "../../declarations/democracy_backend";
 import {useEffect} from "react";
 import Board from "./Board";
+import Button from "@mui/material/Button"
 
 const Democracy = () => {
   const [electionName, setElectionName] = React.useState();
@@ -49,7 +50,7 @@ const Democracy = () => {
               placeholder="election name"
               style={{ margin: "30px", }}
             ></input>
-            <button type="submit">Create new election</button>
+            <Button variant="contained" type="submit">Create new election</Button>
           </div>
         </form>
 
