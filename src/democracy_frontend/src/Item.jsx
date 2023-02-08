@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {idlFactory} from "../../declarations/election";
 import { Actor, HttpAgent } from "@dfinity/agent";
+import {Card, CardActions, CardContent, Grid, Typography} from "@mui/material";
+import Button from "@mui/material/Button";
 
 const Item = (props) => {
   const [name, setName] = useState();
   const [options, setOptions] = useState();
-  const [option1, setOption1] = useState();
-  const [option2, setOption2] = useState();
 
   const id = props.id;
 
@@ -39,9 +39,22 @@ const Item = (props) => {
 
 
   return (
-    <li>
-      {name} - <button>{options}</button> | <button>{options}</button>
-    </li>
+    <Grid item xs={3} md={4}>
+      <Card sx={{ minWidth: 225 }}>
+          <CardContent>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              label
+            </Typography>
+            <Typography variant="h5" component="div">
+              {name}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">{options}</Button>
+            <Button size="small">{options}</Button>
+          </CardActions>
+        </Card>
+    </Grid>
   );
 }
 

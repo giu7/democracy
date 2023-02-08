@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Item from "./Item";
+import {Grid, Stack, Typography} from "@mui/material";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+
 const Board = (props) => {
   const [items, setItems] = useState();
 
@@ -20,10 +23,18 @@ const Board = (props) => {
 
 
   return (
-    <fieldset>
-      <legend>{props.title}</legend>
-      <ul>{items}</ul>
-    </fieldset>
+    <>
+      <Stack direction="row" spacing={2}>
+        <DashboardIcon/>
+        <Typography variant="h5" component="div">
+          {props.title}
+        </Typography>
+      </Stack>
+
+      <Grid container spacing={2}>
+        {items}
+      </Grid>
+    </>
   )
 
 }
