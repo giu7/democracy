@@ -4,15 +4,18 @@ import List "mo:base/List";
 import HashMap  "mo:base/HashMap";
 import Text "mo:base/Text";
 import Types "./Types";
+import Iter "mo:base/Iter";
 
 actor class Election (_name: Text, _options: [Text]) = this {
-    Debug.print("Election Works!");
+    Debug.print("Deploying New Election!");
 
-    let name = _name;
-    let options : [Text] = _options;
+    private stable let name = _name;
+    private stable let options : [Text] = _options;
 
-    var voters = List.nil<Principal>();
-    var votes = HashMap.HashMap<Text, Nat>(1, Text.equal, Text.hash);
+    private stable var voters = List.nil<Principal>();
+
+    private stable var votesEntries: [(Text, Nat)] = [];
+    private var votes = HashMap.HashMap<Text, Nat>(1, Text.equal, Text.hash);
 
     public query func getName() : async Text {
         return name;
@@ -76,5 +79,13 @@ actor class Election (_name: Text, _options: [Text]) = this {
 
     public query func getVoters() : async List.List<Principal> {
         return voters;
+    };
+
+    system func preupgrade() {
+        votesEntries := Iter.toArray(votes.entries());
+    };
+
+    system func postupgrade() {
+        votes := HashMap.fromIter<Text, Nat>(votesEntries.vals(), 1, Text.equal, Text.hash);
     };
 };

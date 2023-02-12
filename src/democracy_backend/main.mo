@@ -8,13 +8,15 @@ import Iter "mo:base/Iter";
 
 actor Democracy {
   
-  var elections = HashMap.HashMap<Principal, ElectionActorClass.Election>(1, Principal.equal, Principal.hash);
-  var owners = HashMap.HashMap<Principal, List.List<Principal>>(1, Principal.equal, Principal.hash);
+  private stable var electionsEntries: [(Principal, ElectionActorClass.Election)] = [];
+  private var elections = HashMap.HashMap<Principal, ElectionActorClass.Election>(1, Principal.equal, Principal.hash);
+  
+  private stable var ownersEntries: [(Principal, List.List<Principal>)] = [];
+  private var owners = HashMap.HashMap<Principal, List.List<Principal>>(1, Principal.equal, Principal.hash);
 
   public shared (msg) func createNewElection(name: Text) : async Principal {
     let caller = msg.caller;
     Debug.print(debug_show(caller));
-
 
     Debug.print(debug_show(Cycles.balance()));
     Cycles.add(200_500_000_000);
@@ -52,5 +54,15 @@ actor Democracy {
     ownedElections := List.push(election, ownedElections);
     owners.put(owner, ownedElections);
   };
+
+  system func preupgrade() {
+        electionsEntries := Iter.toArray(elections.entries());
+        ownersEntries := Iter.toArray(owners.entries());
+    };
+
+    system func postupgrade() {
+        elections := HashMap.fromIter<Principal, ElectionActorClass.Election>(electionsEntries.vals(), 1, Principal.equal, Principal.hash);
+        owners := HashMap.fromIter<Principal, List.List<Principal>>(ownersEntries.vals(), 1, Principal.equal, Principal.hash);
+    };
 
 };
