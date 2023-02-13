@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {idlFactory} from "../../declarations/election";
 import { Actor, HttpAgent } from "@dfinity/agent";
+import { election } from "../../declarations/election";
 import {Card, CardActions, CardContent, Grid, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 
 const Item = (props) => {
   const [name, setName] = useState();
-  const [options, setOptions] = useState();
+  const [options, setOptions] = useState([]);
 
   const id = props.id;
 
@@ -31,6 +32,14 @@ const Item = (props) => {
     console.log(options);
   }
 
+  async function handleVote(e, option) {
+    e.preventDefault();
+    const vote = await election.vote(option);
+    console.log(vote);
+  }
+
+
+
 
   useEffect(() => {
     console.log("[item] useEffect is triggered")
@@ -50,8 +59,8 @@ const Item = (props) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">{options}</Button>
-            <Button size="small">{options}</Button>
+            <Button size="small" onClick={event => handleVote(event, options.at(0))}>{options.at(0)}</Button>
+            <Button size="small" onClick={event => handleVote(event, options.at(1))}>{options.at(1)}</Button>
           </CardActions>
         </Card>
     </Grid>
