@@ -22,7 +22,7 @@ const Item = (props) => {
     ElectionActor = await Actor.createActor(idlFactory,{
       agent,
       canisterId: id,
-      });
+    });
 
     const name = await ElectionActor.getName();
     const options = await ElectionActor.getOptions();
@@ -32,20 +32,27 @@ const Item = (props) => {
     console.log(options);
   }
 
-  async function handleVote(e, option) {
-    e.preventDefault();
-    const vote = await election.vote(option);
-    console.log(vote);
-  }
-
-
-
-
   useEffect(() => {
     console.log("[item] useEffect is triggered")
     loadElection();
   }, []);
 
+  async function handleVote(e, option) {
+    e.preventDefault();
+    console.log(option);
+    ElectionActor = await Actor.createActor(idlFactory,{
+      agent,
+      canisterId: id,
+    });
+
+    const name = await ElectionActor.getName();
+    console.log(ElectionActor);
+    console.log(name);
+    //const vote = await election.vote(option);
+    const vote = await ElectionActor.vote(option);
+    //const vote = await ElectionActor.vote("Yes");
+    console.log(vote);
+  }
 
   return (
     <Grid item xs={3} md={4}>
