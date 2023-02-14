@@ -21,7 +21,7 @@ actor Democracy {
     Debug.print(debug_show(Cycles.balance()));
     Cycles.add(200_500_000_000);
     //TODO remove hardcoded second parameter
-    let newElection = await ElectionActorClass.Election(name, ["yes", "no"]);
+    let newElection = await ElectionActorClass.Election(name, ["Yes", "No"]);
     Debug.print(debug_show(Cycles.balance()));
 
     let newElectionPrincipal = await newElection.getPrincipal();
