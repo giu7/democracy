@@ -70,8 +70,6 @@ actor class Election (_name: Text, _options: [Text]) = this {
             case null 0;
             case (?result) result;
         };
-        Debug.print("votesCount");
-        Debug.print(debug_show(votesCount));
 
         votes.put(option, votesCount + 1);
         return #Ok("Vote Registered");

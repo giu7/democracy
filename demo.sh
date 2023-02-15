@@ -10,6 +10,12 @@ interrupt () {
     echo "\n"
 }
 
+interrupt_to_exit () {
+    echo "\n"
+    read -p "${YELLOW}Press enter to stop the replica and exit${NC}"
+    echo "\n"
+}
+
 dfx stop
 set -e
 trap 'dfx stop' EXIT
@@ -85,7 +91,14 @@ interrupt
 
 echo "${PURPLE}dfx identity use bob${NC}"
 dfx identity use bob
-echo "\n${GREEN}Voting No with Bob identity${NC}"
+
+echo "\n${GREEN}Voting MAYBE with Bob identity. This vote will fail since MAYBE is not a valid option${NC}"
+echo "${PURPLE}dfx canister call $ELECTION_PRINCIPAL vote '(\"Maybe\")'${NC}"
+dfx canister call $ELECTION_PRINCIPAL vote '("Maybe")'
+
+interrupt
+
+echo "${GREEN}Voting No with Bob identity${NC}"
 echo "${PURPLE}dfx canister call $ELECTION_PRINCIPAL vote '(\"No\")'${NC}"
 dfx canister call $ELECTION_PRINCIPAL vote '("No")'
 
@@ -117,4 +130,6 @@ NO_COUNT=${NO_COUNT/#"("} # remove prefix
 NO_COUNT=${NO_COUNT/%" : nat)"} # remove suffix
 echo "${GREEN}No  Votes: " $NO_COUNT "${NC}"
 
-echo "\n${GREEN}Yes Wins!${NC}\n"
+echo "\n${GREEN}Yes Wins!${NC}"
+
+interrupt_to_exit
