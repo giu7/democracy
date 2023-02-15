@@ -27,7 +27,13 @@ const Item = (props) => {
     const name = await ElectionActor.getName();
     const options = await ElectionActor.getOptions();
 
-    setName(name);
+    const yesCount = await ElectionActor.getYes();
+    console.log(name, ' yes: ', yesCount)
+    const noCount = await ElectionActor.getNo();
+    console.log(name, ' no: ', noCount)
+
+    //setName(name);
+    setName(name + ': yes = ' + yesCount + '; no = ' + noCount)
     setOptions(options);
     console.log(options);
   }
@@ -45,12 +51,7 @@ const Item = (props) => {
       canisterId: id,
     });
 
-    const name = await ElectionActor.getName();
-    console.log(ElectionActor);
-    console.log(name);
-    //const vote = await election.vote(option);
     const vote = await ElectionActor.vote(option);
-    //const vote = await ElectionActor.vote("Yes");
     console.log(vote);
   }
 

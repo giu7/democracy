@@ -11,9 +11,16 @@ Then you can start local dfx environment with
 dfx start --clean
 ```
 
+To have a fully clean situation
+```bash
+# delete declarations folder
+dfx canister create --all
+dfx generate
+```
+
 To deploy all the canisters, passing argument for Election use
 ```bash
-dfx deploy --argument='("Test Election", vec {"Yess"; "Noo"})'
+dfx deploy --argument='("Test Election", vec {"Yes"; "No"})'
 ```
 
 Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
