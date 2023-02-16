@@ -83,11 +83,11 @@ const Item = (props) => {
     <Grid item xs={3} md={4}>
       <Card sx={{ minWidth: 225 }}>
           <CardContent>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              {id.toText()}
+            </Typography>
             <Typography variant="h5" component="div">
               {name}
-            </Typography>
-            <Typography variant="h6" component="div">
-              {id.toText()}
             </Typography>
             <Box style={{ display: shouldDisplay ? "inline" : "none" }}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
