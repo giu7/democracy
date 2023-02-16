@@ -60,7 +60,7 @@ const Democracy = () => {
       <Stack direction="row" spacing={2}>
         <DashboardIcon/>
         <Typography variant="h5" component="div">
-          Board
+          Open Elections
         </Typography>
       </Stack>
 

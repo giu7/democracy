@@ -33,7 +33,6 @@ const Item = (props) => {
 
     setName(name);
     setOptions(options);
-
   }
 
   async function loadResults() {
@@ -72,7 +71,7 @@ const Item = (props) => {
       return window.alert("Already voted");
 
     loadResults();
-    return window.alert("vote registered correctly");
+    return window.alert("Vote registered correctly");
   }
 
   async function handleResults(e) {
@@ -86,6 +85,9 @@ const Item = (props) => {
           <CardContent>
             <Typography variant="h5" component="div">
               {name}
+            </Typography>
+            <Typography variant="h6" component="div">
+              {id.toText()}
             </Typography>
             <Box style={{ display: shouldDisplay ? "inline" : "none" }}>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
