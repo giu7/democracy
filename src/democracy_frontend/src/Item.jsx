@@ -68,7 +68,11 @@ const Item = (props) => {
     console.log(vote);
     setLoading(false);
 
+    if(!vote.Ok)
+      return window.alert("Already voted");
+
     loadResults();
+    return window.alert("vote registered correctly");
   }
 
   async function handleResults(e) {
