@@ -1,27 +1,39 @@
 import * as React from "react";
 import { render } from "react-dom";
 import { democracy_backend } from "../../declarations/democracy_backend";
-import {useEffect} from "react";
-import Board from "./Board";
-import Button from "@mui/material/Button"
-import {Container, Paper, TextField, Typography} from "@mui/material";
+import {useEffect, useState} from "react";
+import LoadingButton from '@mui/lab/LoadingButton';
+import {Container, Grid, Paper, Stack, TextField, Typography} from "@mui/material";
+import SaveIcon from '@mui/icons-material/Save';
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import Item from "./Item";
 
 const Democracy = () => {
   const [electionName, setElectionName] = React.useState();
-  const [elections, setElections] = React.useState();
+  const [items, setItems] = useState();
+
+  const [loading, setLoading] = React.useState(false);
 
   async function getAllElections() {
-    const electionsArray = await democracy_backend.getAllElections();
+    let electionsArray = await democracy_backend.getAllElections();
     console.log('all elections: ');
     console.log(electionsArray);
-    setElections(
-      <Board title="Board" ids={electionsArray} />
+
+    setItems(
+      electionsArray.map((ElectionId) => (
+        <Item id={ElectionId} key={ElectionId.toText()} />
+      ))
     );
   }
 
-  function createElection(e){
+  async function createElection(e){
     e.preventDefault()
-    democracy_backend.createNewElection(electionName);
+
+    setLoading(true);
+    await democracy_backend.createNewElection(electionName);
+    setLoading(false);
+
+    getAllElections();
   }
 
   function handleChange(e){
@@ -45,7 +57,16 @@ const Democracy = () => {
         D•emocracy
       </Typography>
 
-      {elections}
+      <Stack direction="row" spacing={2}>
+        <DashboardIcon/>
+        <Typography variant="h5" component="div">
+          Board
+        </Typography>
+      </Stack>
+
+      <Grid container spacing={2}>
+        {items}
+      </Grid>
 
       <form onSubmit={createElection}>
         <div style={{ margin: "30px", textAlign: "center" }}>
@@ -58,7 +79,8 @@ const Democracy = () => {
           />
 
           <Paper elevation={3} >
-            <Button variant="contained" type="submit">Create new election</Button>
+            <LoadingButton loading={loading} loadingPosition="start" startIcon={<SaveIcon />}
+                           variant="contained" type="submit"> <span>Create new election</span> </LoadingButton>
           </Paper>
         </div>
       </form>
